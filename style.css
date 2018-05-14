@@ -6,6 +6,15 @@
          font-style:normal;
          font-variant:normal;
         }
+@keyframes fadeCard {
+    from {
+        opacity: 1;
+    }
+    
+    to {
+        opacity: 0;
+    }
+    }
 
 /* Main element Modification */
 body {
@@ -133,12 +142,19 @@ h2, h3, h4, h5, h6 {
     user-select: none
 }
 .reveal .back{
-    display: none;
-    user-select: none
+    /* display: none; */
+    user-select: none;
+    animation-name: fade-in;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
 }
 .matched .back {
-    display: none;
-    user-select: none
+    /* display: none; */
+    user-select: none;
+    pointer-events: none;
+    animation-name: fade-in;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
 }
 .viewing {
     pointer-events: none;
@@ -269,4 +285,51 @@ h2, h3, h4, h5, h6 {
 .about p {
     font-size: 1vh;
     font-family: sans-serif;
+}
+/* Fade Animation */
+@keyframes fade-in {
+  0% {
+    opacity: 1;
+    transform:
+      perspective(500px)
+      rotateX(-15deg)
+      translateZ(50px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: none;
+    display: none;
+
+  }
+}
+/* Power Classes */
+.mei {
+    background-image: url('ice.png');
+    background-position: center;
+    background-size: cover;
+}
+.revealMei .back{
+    background-image: url('ice.png');
+    opacity: .85;
+    background-position: center;
+    background-size: cover;
+    user-select: none;
+    pointer-events: none;
+}
+.deIce .back{
+    animation-name: fade-in;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    pointer-events: none;
+}
+.revealGenji .back{
+    background-image: url('images/owcardbg-slash.png');
+    background-position: center;
+    background-size: cover;
+}
+.revealBastion .back{
+    background-image: url('images/owcardbg-bullet.png');
+    background-position: center;
+    background-size: cover;
 }
