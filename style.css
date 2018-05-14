@@ -6,8 +6,11 @@
          font-style:normal;
          font-variant:normal;
         }
+
+/* Main element Modification */
 body {
-    background-color: black;
+    background-image: url(images/owbg.jpg);
+    background-size: cover;
     height: 100vh;
     width: 100vw;
     margin: 0;
@@ -22,6 +25,8 @@ h2, h3, h4, h5, h6 {
     font-family: 'big_noodle_titling_oblique', sans-serif;
     color: orange;
 }
+
+/* Headers */
 .header {
     width: 95%;
     height: 15%;
@@ -43,12 +48,10 @@ h2, h3, h4, h5, h6 {
 .headerInfo {
     display: inline-block;
     height: 15vh;
-    width: 70vw;
+    width: 100%;
     text-align: center;
-    vertical-align: middle;
 }
 .nav {
-    margin: 0;
     padding: 0;
 }
 .nav li, .nav a {
@@ -56,9 +59,11 @@ h2, h3, h4, h5, h6 {
     padding: .5vh;
     display: inline;
     font-family: 'big_noodle_titling_oblique', sans-serif;
-    font-size: 3vh;
+    font-size: 5vh;
     color: orange;
 }
+
+/* Containers */
 .main-container {
     width: 95%;
     height: 85%;
@@ -66,7 +71,7 @@ h2, h3, h4, h5, h6 {
 }
 #statBar {
     display: inline-block;
-    background-color:black;
+    /* background-color:black; */
     color: orange;
     width: 10%;
     margin: auto;
@@ -88,25 +93,28 @@ h2, h3, h4, h5, h6 {
     grid-row-gap: 1vw;
     position: relative;
 }
+
+/* Card Control */
 .card {
     background-color:  rgb(27, 25, 25);
     position: relative;
     box-shadow: 0px 0px 3px 2px grey;
     overflow: hidden;
 }
-
 .front, .back {
     height: 100%;
     width: 100%;
     position: absolute;
-
 }
 .front {
     background-image: url(images/cardfrontbg.jpg);
     background-size: cover;
 }
 .back {
-    background-color:  rgb(27, 25, 25); 
+    background-image: url(images/owcardbg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 .front img, .back img {
     max-height: 100%;
@@ -121,6 +129,79 @@ h2, h3, h4, h5, h6 {
 .reveal .back{
     display: none;
 }
+.matched .back {
+    display: none;
+}
 .viewing {
     pointer-events: none;
+}
+
+/* Splash Modal */
+#splashModal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    min-width: 95vw;
+    min-height: 50vw;
+    max-width: 95vw;
+    max-height: 90vh;
+    background-color: rgba(0, 0, 0, 0.95);
+}
+#splashModal p {
+    position: relative; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    font-family: 'big_noodle_titling_oblique', sans-serif;
+    color: orange;
+    font-size: 10vh;
+    text-align: center;
+    vertical-align: middle;
+}
+.hideModal{
+    display: none;
+}
+
+/* Win Modal */
+#winModal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    min-width: 95vw;
+    min-height: 50vw;
+    max-width: 95vw;
+    max-height: 90vh;
+    background-color: rgba(0, 0, 0, 0.95);
+}
+#winModal p {
+    position: absolute; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    font-family: 'big_noodle_titling_oblique', sans-serif;
+    color: orange;
+    font-size: 15vh;
+    text-shadow: 4px 4px 5px black;
+    text-align: center;
+    vertical-align: middle;
+}
+.victory {
+    position: relative; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 600px;
+    max-width: 600px;
+    margin: auto;
+}
+.hideWinModal{
+    display: none;
 }

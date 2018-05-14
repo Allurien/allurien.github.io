@@ -8,20 +8,17 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="main.js"></script>
-    <title>The world needs heroes</title>
+    <title>The World Needs Heroes</title>
 </head>
 <body>
     <div class="header">
-        <div class="logo">
-            <img src="images/symbol.png" alt="">
-            <ul class="nav">
-                <li>Settings</li>
-                <li><a href='about.html'>About</a></li>
-            </ul>
-        </div>
         <div class="headerInfo">
-            <h1>THE WORLD NEEDS HEROES. ARE YOU WITH US?</h1>
-            
+            <!-- <button onclick="bgMusicPlay()">Play</button> -->
+            <button onclick="bgMusicPause()">Pause</button> 
+            <ul class="nav">
+                    <li>Settings</li>
+                    <li><a href='about.html'>About</a></li>
+            </ul>   
         </div>
     </div>
         <div class="main-container">
@@ -43,6 +40,12 @@
             <div id="game-area">
             </div>
         </div>
-
+        <!-- <div id="winModal">
+                <img class="victory" src= "images/heroes/brigitte-victory.png" alt="">
+                <p>YOU WON!</p>
+            </div> -->
+        <div id="splashModal">
+            <p>THE WORLD NEEDS HEROES. ARE YOU WITH US?</p>
+        </div>
 </body>
 </html>
