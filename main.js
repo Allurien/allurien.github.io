@@ -1,8 +1,7 @@
 $(document).ready(gogoApp);
 function gogoApp(){
     addClickHandlers();
-    createBoard();   
-    // playgound();
+    createBoard();  
 }
 // Global variables
     // Card Handling
@@ -22,6 +21,7 @@ var games_played = 0;
 function addClickHandlers(){
     $('#game-area').on('click', '.card', card_clicked);
     $("#splashModal").click(closeModal);
+    $("#winModal").click(hideWin);
     $('.reset').click(function(){
         games_played++;
         reset_stats();
@@ -49,18 +49,23 @@ function card_clicked() {
         secondImageClick = $(this).find('.front img').attr('src');
         $(second_card_clicked).addClass('viewing');
         attempts++;
+        $('.attemptValue').text(attempts);
         if (firstImageClick === secondImageClick) {
             currentCard = $(this).attr('position');
             powerDetection();
             heroMatchSound();
             match_counter++;
             matches ++;
+            attempts++;
+            $('.attemptValue').text(attempts);
+            $('.accuracyValue').text(accuracy + '%');
             $(first_card_clicked).addClass('viewing');
             $(second_card_clicked).addClass('viewing');
             first_card_clicked = null;
             second_card_clicked = null;
             if (match_counter === total_possible_matches) {
-                $('.headerInfo h1').text('You won!');
+                victoryPose();
+                $('#winModal').removeClass('hideWinModal');
             } else {
                 return;
             }
@@ -86,9 +91,9 @@ function pauseFlip(){
 // Stats Functionality
 function display_stats(){
     var accuracy = Math.round((matches)/(attempts)*100);
-    $('.games-played .value').text(games_played);
-    $('.attempts .value').text(attempts);
-    $('.accuracy .value').text(accuracy + '%');
+    $('.games-played .playedValue').text(games_played);
+    $('.attempts .attemptValue').text(attempts);
+    $('.accuracy .accuracyValue').text(accuracy + '%');
 }
 function reset_stats(){
     var matches = 0;
@@ -111,57 +116,75 @@ function createBoard(){
 var heroRoster = ['bastion', 'brigitte', 'genji', 'hanzo', 'mei', 'mercy', 'sombra', 'tracer', 'zenyatta'];
 var heroes = {
     bastion: {
-        power: revealDiagonalCards,
+        power: 'none',
         clickSound: new Audio('sounds/bastion-click.ogg'),
+        clickSoundLimiter: false,
         matchSound: new Audio('sounds/bastion-ult.ogg'),
+        victoryPose: 'images/heroes/bastion-victory.png',
         src: 'images/heroes/bastion.png'
     },
     brigitte: {
-        power: revealDiagonalCards,
+        power: 'none',
         clickSound: new Audio('sounds/brigitte-click.ogg'),
+        clickSoundLimiter: false,
         matchSound: new Audio('sounds/brigitte-ult.ogg'),
+        victoryPose: 'images/heroes/brigitte-victory.png',
         src: 'images/heroes/brigitte.png'
     },
     genji: {
         power: revealDiagonalCards,
         clickSound: new Audio('sounds/genji-click.ogg'),
+        clickSoundLimiter: false,
         matchSound: new Audio('sounds/genji-ult.ogg'),
+        victoryPose: 'images/heroes/genji-victory.png',
         src: 'images/heroes/genji.png'
     },
     hanzo:{
         power: revealEdgeCards,
         clickSound: new Audio('sounds/hanzo-click.ogg'),
+        clickSoundLimiter: false,
         matchSound: new Audio('sounds/hanzo-ult.ogg'),
+        victoryPose: 'images/heroes/hanzo-victory.png',
         src: 'images/heroes/hanzo.png' 
     },
     mei: {
         power: revealAdjacentCards,
         clickSound: new Audio('sounds/mei-click.mp3'),
+        clickSoundLimiter: false,
         matchSound: new Audio('sounds/mei-ult.ogg'),
+        victoryPose: 'images/heroes/mei-victory.png',
         src: 'images/heroes/mei.png'
     },
     mercy: {
-        power: revealDiagonalCards,
+        power: 'none',
         clickSound: new Audio('sounds/mercy-click.ogg'),
+        clickSoundLimiter: false,
         matchSound: new Audio('sounds/mercy-ult.ogg'),
+        victoryPose: 'images/heroes/mercy-victory.png',
         src: 'images/heroes/mercy.png'
     },
     sombra: {
-        power: revealDiagonalCards,
+        power: 'none',
         clickSound: new Audio('sounds/sombra-click.ogg'),
+        clickSoundLimiter: false,
         matchSound: new Audio('sounds/sombra-ult.ogg'),
+        victoryPose: 'images/heroes/sombra-victory.png',
         src: 'images/heroes/sombra.png'
     },
     tracer: {
-        power: revealDiagonalCards,
+        power: 'none',
         clickSound: new Audio('sounds/tracer-click.ogg'),
+        clickSoundLimiter: false,
         matchSound: new Audio('sounds/tracer-ult.ogg'),
+        victoryPose: 'images/heroes/tracer-victory.png',
         src: 'images/heroes/tracer.png'
     },
     zenyatta: {
-        power: revealDiagonalCards,
+        power: 'none',
         clickSound: new Audio('sounds/zenyatta-click.ogg'),
+        clickSoundLimiter: false,
         matchSound: new Audio('sounds/zenyatta-ult.ogg'),
+        victoryPose: 'images/heroes/zenyatta-victory.png',
         src: 'images/heroes/zenyatta.png'
     },
 }
@@ -173,14 +196,58 @@ function addHeroes(){
     rosterCopy.splice(heroChoice, 1);
   });
 }
+function victoryPose(){
+    var heroVictoryPoses = ['bastion', 'brigitte', 'genji', 'hanzo', 'mei', 'mercy', 'sombra', 'tracer', 'zenyatta'];
+    var randomPose = heroVictoryPoses[Math.floor(Math.random() * heroVictoryPoses.length)];
+    switch(randomPose){
+        case 'bastion':
+            $('#winModal').append(`<img src= "${heroes.bastion.victoryPose}" alt= "You Won"/>)`); 
+            break;  
+        case 'brigitte':
+            $('#winModal').append(`<img src= "${heroes.brigitte.victoryPose}" alt= "You Won"/>)`); 
+            break;
+        case 'genji':
+            $('#winModal').append(`<img src= "${heroes.genji.victoryPose}" alt= "You Won"/>)`); 
+            break;
+        case 'hanzo':
+            $('#winModal').append(`<img src= "${heroes.hanzo.victoryPose}" alt= "You Won"/>)`); 
+            break;  
+        case 'mei':
+            $('#winModal').append(`<img src= "${heroes.mei.victoryPose}" alt= "You Won"/>)`); 
+            break;
+        case 'mercy':
+            $('#winModal').append(`<img src= "${heroes.mercy.victoryPose}" alt= "You Won"/>)`); 
+            break;
+        case 'sombra':
+            $('#winModal').append(`<img src= "${heroes.sombra.victoryPose}" alt= "You Won"/>)`); 
+            break;  
+        case 'tracer':
+            $('#winModal').append(`<img src= "${heroes.tracer.victoryPose}" alt= "You Won"/>)`); 
+            break;
+        case 'zenyatta':
+            $('#winModal').append(`<img src= "${heroes.zenyatta.victoryPose}" alt= "You Won"/>)`); 
+            break;
+    }  
+    var winner = $('<p>').text('YOU WON!');
+    $('#winModal').append(winner);
+}
 
 // Hero Power Invocation
 function powerDetection(){
+    function removeAbility() {
+        $('.abilities').text('Choose a card');
+    }
     if(secondImageClick == heroes.mei.src) {
+        $('.abilities').text('You\'ve triggered Mei\'s Ice Wall!');
+        setTimeout(removeAbility, 4000);
         revealAdjacentCards();
     } else if(secondImageClick == heroes.genji.src) {
+        $('.abilities').text('You\'ve triggered Genji\'s Dragon Blade!');
+        setTimeout(removeAbility, 4000);
         revealDiagonalCards();
     } else if(secondImageClick == heroes.hanzo.src) {
+        $('.abilities').text('You\'ve triggered Hanzo\'s Sonic Arrow!');
+        setTimeout(removeAbility, 4000);
         revealEdgeCards();
     } else {
         return;
@@ -224,7 +291,7 @@ function revealAdjacentCards() {
         $(leftElementSelector).removeClass('reveal');
         $(rightElementSelector).removeClass('reveal');
     }
-    setTimeout(removeElement, 1000);
+    setTimeout(removeElement, 2000);
 }
 function revealDiagonalCards() {
     var position = parseInt(currentCard);
@@ -240,13 +307,13 @@ function revealDiagonalCards() {
     leftCheck();
     rightCheck();
     function leftCheck(){
-        if(range == true && position !== 6 && position !== 12) {
+        if(range == true && position !== 6 && position !== 12 && position !== 18) {
             $(topLeftSelector).addClass('reveal');
             $(bottomLeftSelector).addClass('reveal');
         }  
     }
     function rightCheck(){
-        if(range == true && position !== 5 && position !== 11) {
+        if(range == true && position !== 5 && position !== 11 && position !== 17) {
             $(topRightSelector).addClass('reveal');
             $( bottomRightSelector).addClass('reveal');
         }
@@ -257,7 +324,7 @@ function revealDiagonalCards() {
         $(bottomLeftSelector).removeClass('reveal');
         $(bottomRightSelector).removeClass('reveal');
     }
-    setTimeout(removeElement, 1000);
+    setTimeout(removeElement, 2000);
 }
 function revealEdgeCards() {
     addElement();
@@ -277,7 +344,7 @@ function revealEdgeCards() {
         $('div[position="11"]').removeClass('reveal');
         $('div[position="17"]').removeClass('reveal');
     }
-    setTimeout(removeElement, 1000);
+    setTimeout(removeElement, 2000);
 }
 
 // Sounds
@@ -285,31 +352,76 @@ function heroClickSound(){
     var heroName = firstImageClick.slice(14, -4);
     switch(heroName){  
         case 'bastion': 
-            heroes.bastion.clickSound.play();
+            if(heroes.bastion.clickSoundLimiter == false){
+                heroes.bastion.clickSound.play();
+                heroes.bastion.clickSoundLimiter = true;
+            } else {
+                break;
+            }
             break;
         case 'brigitte': 
-            heroes.brigitte.clickSound.play();
+            if(heroes.brigitte.clickSoundLimiter == false){
+                heroes.brigitte.clickSound.play();
+                heroes.brigitte.clickSoundLimiter = true;
+            } else {
+                break;
+            }            
             break;
         case 'genji': 
-            heroes.genji.clickSound.play();
+            if(heroes.genji.clickSoundLimiter == false){
+                heroes.genji.clickSound.play();
+                heroes.genji.clickSoundLimiter = true;
+            } else {
+                break;
+            }
             break;
         case 'hanzo': 
-            heroes.hanzo.clickSound.play();
+            if(heroes.hanzo.clickSoundLimiter == false){
+                heroes.hanzo.clickSound.play();
+                heroes.hanzo.clickSoundLimiter = true;
+            } else {
+                break;
+            }
             break;
         case 'mei': 
-            heroes.mei.clickSound.play();
+            if(heroes.mei.clickSoundLimiter == false){
+                heroes.mei.clickSound.play();
+                heroes.mei.clickSoundLimiter = true;
+            } else {
+                break;
+            }
             break;
         case 'mercy': 
-            heroes.mercy.clickSound.play();
+            if(heroes.mercy.clickSoundLimiter == false){
+                heroes.mercy.clickSound.play();
+                heroes.mercy.clickSoundLimiter = true;
+            } else {
+                break;
+            }
             break;
         case 'sombra': 
-            heroes.sombra.clickSound.play();
+            if(heroes.sombra.clickSoundLimiter == false){
+                heroes.sombra.clickSound.play();
+                heroes.sombra.clickSoundLimiter = true;
+            } else {
+                break;
+            }
             break;
         case 'tracer': 
-            heroes.tracer.clickSound.play();
+            if(heroes.tracer.clickSoundLimiter == false){
+                heroes.tracer.clickSound.play();
+                heroes.tracer.clickSoundLimiter = true;
+            } else {
+                break;
+            }
             break;
         case 'zenyatta': 
-            heroes.zenyatta.clickSound.play();
+            if(heroes.zenyatta.clickSoundLimiter == false){
+                heroes.zenyatta.clickSound.play();
+                heroes.zenyatta.clickSoundLimiter = true;
+            } else {
+                break;
+            }
             break;
     }
 }
@@ -355,26 +467,6 @@ function bgMusicPause(){
 }
 
 //Win Modal
-function youWon(){
-    $("#winModal").click(closeWinModal);  
+function hideWin(){
+    $("#winModal").addClass('hideWinModal');     
 }
-
-
-
-
-
-
-  // function playground(){
-//     var current = null;
-//     for(var bob=0;bob<18;bob++){
-//         $('.pos-'+(bob)).addClass('reveal');
-//         var current = $('.pos-'+(bob));
-//         console.log(current);
-//         flipCard();
-//     }
-//     function flipCard(bob){
-//         setTimeout(function(){
-//         $('.card').removeClass('reveal');
-//         }, 1000);
-//     }
-// }
